@@ -1,6 +1,7 @@
 <template>
   <q-item-section class="text-capitalize" v-html='boldenedName'></q-item-section>
 </template>
+
 <script>
 export default {
   props: ['name', 'search'],

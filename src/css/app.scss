@@ -1,5 +1,42 @@
+
+// scss
+
+.container {
+  max-width: 30rem;
+}
+
+// helper/hacking classes
+
+.highlight {
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  background-color: $prevent;
+  color: transparent;
+  z-index: -1;
+  font-size: 15px;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+
 // Q rewrites
 
 .q-field__marginal {
   color: $ws-gem;
+}
+
+.q-list {
+  border-radius: 5px;
+  max-width: 90%;
+}
+
+.q-input {
+  z-index: 2;
+  border-radius: 5px;
+  padding: 20px 0;
+  overflow: hidden;
+  max-width: 90%;
 }

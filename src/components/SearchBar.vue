@@ -1,6 +1,6 @@
 <template>
-    <div class="container">
-      <h1>StarWars Search</h1>
+    <div class="container q-my-none q-mx-auto relative-position">
+      <h1 class="text-h2 q-py-xl text-center q-ma-none">StarWars Search</h1>
       <q-input 
         outlined 
         v-model="search" 
@@ -10,6 +10,7 @@
         color="ws-gem"
         :loading="isLoading"
         @input="getAllPeople"
+        class="transparent q-mx-auto"
         > 
           <template v-slot:append>
             <q-icon v-show="!isLoading" name="search" />
@@ -19,14 +20,14 @@
           </template>
       </q-input>
       <div v-if="!search">
-        <p>Enter search pharse</p>
+        <p class="text-center q-py-xl q-ma-none">Enter search pharse</p>
       </div>
-      <div v-else-if="showError">
+      <div class="text-center q-py-xl q-ma-none" v-else-if="showError">
         <p>Oops, something went wrong.</p>
       </div>
-      <div v-else-if="names.length > 0" class="list" >
-        <div class="text-white">
-          <q-list class="bg-ws-navy" v-for="person in names" :key="person.index" dark>
+      <div v-else-if="names.length > 0" class="q-my-none q-mx-auto" >
+        <div class="text-white q-pb-lg">
+          <q-list class="bg-ws-navy q-mt-xs q-mx-auto cursor-inherit" v-for="person in names" :key="person.index" dark>
             <q-item v-ripple class="row">
               <BoldenListItem 
                 :name="person.name"
@@ -37,7 +38,7 @@
         </div>
       </div>
       <div v-else-if="this.names.length === 0">
-        <p>Nothing found</p>
+        <p class="text-center q-py-xl q-ma-none">Nothing found</p>
       </div>
     </div>
 </template>
@@ -47,103 +48,45 @@ import axios from "axios";
 import BoldenListItem from "./BoldenListItem.vue";
 
 export default {
-    data() {
-        return {
-            search: "",
-            names: [],
-            dense: false,
-            isLoading: false,
-            showError: false,
-        };
-    },
-    methods: {
-      getAllPeople() {
-        this.isLoading = true;
+  components: { BoldenListItem },
+  data() {
+    return {
+      search: "",
+      names: [],
+      dense: false,
+      isLoading: false,
+      showError: false,
+    };
+  },
+  methods: {
+    getAllPeople() {
+      this.isLoading = true;
 
-        if (!this.search) {
+      if (!this.search) {
+        this.isLoading = false;
+        return;
+      }
+
+      if (this.showError) {
+        this.showError = false;
+      }
+
+      axios.get("https://swapi.py4e.com/api/people/", { params: { search: this.search } })
+        .then((response) => {
+          this.names = response.data.results;
+        })
+        .catch(err => {
+          this.showError = true;
+        })
+        .finally( () => {
           this.isLoading = false;
-          return;
-        }
-
-        if (this.showError) {
-          this.showError = false;
-        }
-
-        axios.get("https://swapi.py4e.com/api/people/", { params: { search: this.search } })
-          .then((response) => {
-            this.names = response.data.results;
-          })
-          .catch(err => {
-            this.showError = true;
-          })
-          .finally( () => {
-            this.isLoading = false;
-          });
-      },
+        });
     },
-    computed: {
-      match() {
-        return this.names.length > 0;
-      },
+  },
+  computed: {
+    match() {
+      return this.names.length > 0;
     },
-    components: { BoldenListItem }
+  }
 }
 </script>
-<style sass>
-
-  .container {
-    width: 50%;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .list {
-    width: 50%;
-    margin: 0 auto;
-  }
-
-  .q-list {
-    margin: 5px 0;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .q-input {
-    z-index: 2;
-    width: 50%;
-    margin: 0 auto;
-    border-radius: 5px;
-    padding: 20px 0;
-    background-color: transparent;
-    overflow: hidden;
-  }
-
-  .highlight {
-    position: absolute;
-    left: 0;
-    bottom: 10px;
-    background-color: #FEE6E0;
-    color: transparent;
-    z-index: -1;
-    font-size: 15px;
-  }
-
-  .hide {
-    visibility: hidden;
-  }
-
-  h1 {
-    text-align: center;
-    font-size: 4rem;
-    margin:0;
-    padding: 20px 0;
-  }
-
-  p {
-    text-align: center;
-    padding: 20px 0;
-    margin: 0;
-  }
-
-
-</style>
