@@ -6,8 +6,7 @@
         v-model="search" 
         label="Name" 
         :dense="dense" 
-        debounce="1000" 
-        color="ws-gem"
+        debounce="500" 
         :loading="isLoading"
         @input="getAllPeople"
         class="transparent q-mx-auto"
@@ -16,7 +15,7 @@
             <q-icon v-show="!isLoading" name="search" />
           </template> 
           <template v-slot:default>
-            <span v-bind:class="{ 'highlight': !match, 'hide': match }"> {{ search }} </span>
+            <span v-bind:class="{ 'highlight': !hasNames, 'hide': hasNames }"> {{ search }} </span>
           </template>
       </q-input>
       <div v-if="!search">
@@ -25,7 +24,7 @@
       <div class="text-center q-py-xl q-ma-none" v-else-if="showError">
         <p>Oops, something went wrong.</p>
       </div>
-      <div v-else-if="names.length > 0" class="q-my-none q-mx-auto" >
+      <div v-else-if="hasNames" class="q-my-none q-mx-auto" >
         <div class="text-white q-pb-lg">
           <q-list class="bg-ws-navy q-mt-xs q-mx-auto cursor-inherit" v-for="person in names" :key="person.index" dark>
             <q-item v-ripple class="row">
@@ -37,14 +36,14 @@
           </q-list>
         </div>
       </div>
-      <div v-else-if="this.names.length === 0">
+      <div v-else>
         <p class="text-center q-py-xl q-ma-none">Nothing found</p>
       </div>
     </div>
 </template>
 <script>
 
-import axios from "axios";
+import swapi from '../api/swapi.js';
 import BoldenListItem from "./BoldenListItem.vue";
 
 export default {
@@ -71,7 +70,7 @@ export default {
         this.showError = false;
       }
 
-      axios.get("https://swapi.py4e.com/api/people/", { params: { search: this.search } })
+      swapi.get("people/", { params: { search: this.search } })
         .then((response) => {
           this.names = response.data.results;
         })
@@ -84,7 +83,7 @@ export default {
     },
   },
   computed: {
-    match() {
+    hasNames() {
       return this.names.length > 0;
     },
   }

@@ -1,0 +1,13 @@
+// q input overrides
+
+.q-input {
+  z-index: 2;
+  border-radius: 5px;
+  padding: 20px 0;
+  overflow: hidden;
+  max-width: 90%;
+
+  .q-field__marginal {
+    color: $primary;
+  }
+}

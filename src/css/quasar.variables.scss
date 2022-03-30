@@ -2,7 +2,16 @@
 // --------------------------------------------------
 
 
-$primary   : #1976D2;
+// Websupport colors
+
+$ws-gem    : #2FD17D;
+$ws-navy   : #2C3843;
+
+// additional colors
+
+$prevent    : #FEE6E0;
+
+$primary   : $ws-gem;
 $secondary : #26A69A;
 $accent    : #9C27B0;
 
@@ -12,18 +21,6 @@ $negative  : #C10015;
 $info      : #31CCEC;
 $warning   : #F2C037;
 
-// Websupport colors
-
-$ws-gem    : #2FD17D;
-$ws-navy   : #2C3843;
-
-.text-ws-gem {
-  color: $ws-gem;
-}
-.bg-ws-gem {
-  background: $ws-gem;
-}
-
 .text-ws-navy {
   color: $ws-navy;
 }
@@ -32,14 +29,10 @@ $ws-navy   : #2C3843;
   background: $ws-navy;
 }
 
-// additional colors
-
-$prevent    : #FEE6E0;
-
 .text-ac-prevent {
   color: $prevent;
 }
 
-.bg-ws-prevent {
+.bg-ac-prevent {
   background: $prevent;
 }
